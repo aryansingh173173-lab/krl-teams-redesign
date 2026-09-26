@@ -13,7 +13,7 @@
     en: {
       notice: "Known records only. Programme targets are published ambitions, not live enrolment.",
       find: "Find farmer, farm, AC, team",
-      command: "Command",
+      command: "Overview",
       geography: "Geography",
       teams: "Teams",
       agents: "Agents",
@@ -28,7 +28,7 @@
     bn: {
       notice: "কেবল যা জানা. কর্মসূচির লক্ষ্যমাত্রা প্রকাশিত উচ্চাকাঙ্ক্ষা, চালু তালিকা নয়.",
       find: "কৃষক, খামার, কেন্দ্র, দল খুঁজুন",
-      command: "কমান্ড",
+      command: "পরিচিতি",
       geography: "ভূগোল",
       teams: "দল",
       agents: "এজেন্ট",
@@ -121,14 +121,22 @@
   }
 
 
+  function teamArtwork(team) {
+    return team.logo;
+  }
+
+  function goldIcon(name) {
+    return `<svg class="gold-icon" viewBox="0 0 120 120" aria-hidden="true"><use href="images/gold/icons.svg#${name}"></use></svg>`;
+  }
+
   function teamIdentity(team, extra) {
     if (!team || team.placeholder || !team.logo) return "";
-    return '<span class="tid"><img src="' + esc(team.logo) + '" alt="' + esc(team.name) + ' official mark"><span><b>' + esc(team.name) + "</b><small>" + esc(extra || teamRegion(team)) + "</small></span></span>";
+    return '<span class="tid"><img src="' + esc(teamArtwork(team)) + '" alt="' + esc(team.name) + ' official logo"><span><b>' + esc(team.name) + "</b><small>" + esc(extra || teamRegion(team)) + "</small></span></span>";
   }
 
   function teamMark(team) {
     if (!team || team.placeholder || !team.logo) return "";
-    return '<img src="' + esc(team.logo) + '" alt="' + esc(team.name) + ' official mark">';
+    return '<img src="' + esc(teamArtwork(team)) + '" alt="' + esc(team.name) + ' official logo">';
   }
 
   function supportPeople(farm) {
@@ -259,63 +267,80 @@
     return empty(kind + " not found", "No known record matches “" + id + "”. Return to the command centre and try another path.");
   }
 
+  const TEAM_REGIONS = {
+    all: ["himalayan-giants", "terai-tuskers", "cooch-behar-royals", "nadia-warriors", "ganga-gladiators", "sundarban-strikers"],
+    north: ["himalayan-giants", "terai-tuskers", "cooch-behar-royals", "dinajpur-defenders", "malda-kings"],
+    central: ["murshidabad-nawabs", "nadia-warriors", "bardhaman-bigha-kings", "hooghly-harits", "birbhum-blasters"],
+    south: ["bankura-bulls", "purulia-panthers", "medinipur-mavericks", "ganga-gladiators", "sundarban-strikers"],
+  };
+
+  function homeTeamCards(region = "all") {
+    return TEAM_REGIONS[region].map((id) => {
+      const team = D.byId(D.TEAMS, id);
+      const st = D.teamStats(id);
+      return `<a class="team-tile" href="${href("team/" + id)}">
+        <div class="team-card-top"><span class="team-number">BENGAL / ${String(D.TEAMS.indexOf(team) + 1).padStart(2, "0")}</span><span class="team-open" aria-hidden="true">↗</span></div>
+        <img src="${teamArtwork(team)}" alt="${esc(team.name)} official logo" width="108" height="125" loading="lazy">
+        <h3>${esc(team.name)}</h3><p>${esc(teamRegion(team))}</p>
+        <span class="team-card-bottom"><span>${st.acs} assembly seats</span><span>Meet the team →</span></span>
+      </a>`;
+    }).join("");
+  }
+
   function viewCommand() {
     setNav("command");
-    crumb([{ href: "#/", label: "West Bengal" }, { label: "Command Centre" }]);
+    crumb([{ href: "#/", label: "West Bengal" }, { label: "Overview" }]);
     const s = D.programmeStats();
     const latest = D.ACTIVITIES[0];
-    const latestFarm = latest ? D.byId(D.FARMS, latest.farmId) : null;
-    const latestAgent = latest ? D.byId(D.AGENTS, latest.agentId) : null;
     const flag = D.byId(D.FARMS, "maa-ganga");
     const flagTeam = flag ? D.byId(D.TEAMS, flag.teamId) : null;
-    const flagFarmer = flag ? D.byId(D.FARMERS, flag.farmerId) : null;
-
+    const bn = lang() === "bn";
     return `
-      <header class="mast">
-        <div>
-          <p class="mast-k">Krishi Ratna League · Bharatiya Krishak Samaj</p>
-          <h1>Smart Farming<br>Command Centre</h1>
-          <p class="mast-place">West Bengal</p>
-          <p class="mast-sub">State to constituency to team to agent to farmer to farm.</p>
+      <header class="home-hero">
+        <img class="hero-landscape" src="images/gold/bengal-sunset.png" alt="Illustrative Bengal paddy fields glowing in the light of a golden sunset" width="1536" height="1024" fetchpriority="high">
+        <div class="hero-ornament" aria-hidden="true"></div>
+        <button class="motion-toggle" type="button" data-motion aria-pressed="false">Pause motion Ⅱ</button>
+        <p class="hero-topline">${bn ? "কৃষি রত্ন লীগ · পশ্চিমবঙ্গ" : "Krishi Ratna League · West Bengal"}</p>
+        <h1><span class="hero-phrase">${bn ? "বাংলার মাটি।" : "Bengal’s soil."}</span> <span class="hero-phrase">${bn ? "বাংলার মানুষ।" : "Bengal’s people."}</span><em>${bn ? "একসঙ্গে এগিয়ে চলা।" : "A future we grow together."}</em></h1>
+        <p class="hero-description">${bn ? "একটি রাজ্য। পনেরোটি দল। কৃষক, খামার ও মাঠের কাজকে যুক্ত করার একটি উদ্যোগ।" : "One state. Fifteen teams. A shared ambition to bring farmers, field teams and smarter farming together — one farm at a time."}</p>
+        <div class="hero-actions">
+          <a class="button-gold" href="${href("teams")}">${bn ? "দলগুলি দেখুন" : "Meet the teams"} <span aria-hidden="true">↗</span></a>
+          <a class="button-outline" href="${href("farm/maa-ganga")}">${bn ? "একটি খামারের গল্প" : "Step inside a farm"} <span aria-hidden="true">→</span></a>
         </div>
-        <div class="mast-aside">
-          <div><strong>Programme target</strong> ${s.targetFarmers.toLocaleString("en-IN")} farmers</div>
-          <div><strong>State frame</strong> ${s.districts} districts · ${s.acs} assembly constituencies</div>
-          <div><strong>Known records</strong> ${s.knownFarmers} farmer · ${s.knownFarms} farm · ${s.agents} agent</div>
-        </div>
+        <div class="hero-bottom"><a class="hero-scroll" href="#programme" data-scroll="programme"><span class="scroll-circle" aria-hidden="true">↓</span>${bn ? "উদ্যোগটি জানুন" : "Discover the programme"}</a><p class="hero-coordinate">West Bengal · Krishi Ratna League<br>AI-created landscape · programme illustration</p></div>
       </header>
-      <dl class="scale">
-        <a href="${href("farmers")}"><dt>Programme target</dt><dd>${s.targetFarmers.toLocaleString("en-IN")}</dd><small>Published ambition</small></a>
-        <a href="${href("geo")}"><dt>Assembly seats</dt><dd>${s.acs}</dd><small>${s.districts} districts</small></a>
-        <a href="${href("teams")}"><dt>Official teams</dt><dd>${s.teams}</dd><small>Current league identities</small></a>
-        <a href="${href("farms")}"><dt>Known farms</dt><dd>${s.knownFarms}</dd><small>${s.knownFarmers} farmer · ${s.agents} agent</small></a>
+      <dl class="home-stats" id="programme">
+        <a href="${href("farmers")}">${goldIcon("wheat")}<dt>Our ambition</dt><dd>${s.targetFarmers.toLocaleString("en-IN")}</dd><small>Farmers · programme target</small><span class="stat-arrow" aria-hidden="true">↗</span></a>
+        <a href="${href("geo")}">${goldIcon("sun")}<dt>The state canvas</dt><dd>${s.acs}</dd><small>Assembly constituencies</small><span class="stat-arrow" aria-hidden="true">↗</span></a>
+        <a href="${href("teams")}">${goldIcon("shield")}<dt>The collective</dt><dd>${String(s.teams).padStart(2, "0")}</dd><small>Official team identities</small><span class="stat-arrow" aria-hidden="true">↗</span></a>
+        <a href="${href("geo")}">${goldIcon("leaf")}<dt>Rooted across</dt><dd>${s.districts}</dd><small>Districts of West Bengal</small><span class="stat-arrow" aria-hidden="true">↗</span></a>
       </dl>
-      <section class="geo-command">
-        <div>
-          <p class="geo-kicker">Programme Geographic View</p>
-          <h2 class="sec-title" style="margin-top:0">West Bengal</h2>
-          ${wbMap(false)}
-        </div>
-        ${flag ? `<aside class="flag-card">
-          <p class="geo-kicker">Flagship record</p>
-          <h2 class="sec-title" style="margin-top:0">${esc(flag.name)}</h2>
-          ${teamIdentity(flagTeam, "Jalpaiguri · Maynaguri")}
-          <p class="mast-sub">${flag.progress}% implementation. ${esc(flagFarmer.name)} · ${esc(latestAgent ? latestAgent.code : flag.agentId)}.</p>
-          <p><a href="${href("farm/maa-ganga")}">Open Farm 360</a></p>
-        </aside>` : ""}
+      <p class="home-record-note"><span>THE RECORD TODAY</span> ${s.knownFarmers} farmer · ${s.knownFarms} farm · ${s.agents} agent. Programme targets describe our ambition; field records show what is known.</p>
+      <section class="home-section home-network" aria-labelledby="network-title">
+        <div class="section-heading"><div><p class="eyebrow">01 / The people behind the programme</p><h2 id="network-title">Different roots.<br><em>One shared purpose.</em></h2></div><p>From the Himalayan foothills to the Sundarbans, fifteen regional identities connect the league to the places it calls home.</p></div>
+        <div class="region-selector" role="group" aria-label="Explore teams by region"><button type="button" data-region="all" aria-pressed="true">Across Bengal</button><button type="button" data-region="north" aria-pressed="false">The North</button><button type="button" data-region="central" aria-pressed="false">Central Bengal</button><button type="button" data-region="south" aria-pressed="false">The South & West</button></div>
+        <p class="sr-only" id="team-region-status" role="status">Six featured teams from across Bengal.</p>
+        <div class="team-preview" id="home-teams">${homeTeamCards()}</div>
+        <div class="section-foot"><p>15 official teams. One connected field network.</p><a class="text-link" href="${href("teams")}">Explore all teams <span aria-hidden="true">→</span></a></div>
       </section>
-      ${latest ? `<section class="ops-now">
-        <header class="sec-head"><p class="sec-k">Field journal</p><h2>Current activity</h2></header>
-        <a class="ops-line" href="${href("farm/" + latest.farmId)}">
-          <time>${esc(latest.date)}</time>
-          <div>
-            <strong>${esc(latest.title)}</strong>
-            <p>${esc(latestFarm ? latestFarm.name : "")} · ${esc(latestAgent ? latestAgent.code : "")}${latest.note ? " · " + esc(latest.note) : ""}</p>
-          </div>
-        </a>
-      </section>` : ""}
-      ${leagueBoard()}`;
+      <section class="home-section home-geography" aria-labelledby="geography-title">
+        <div class="section-intro"><p class="eyebrow">02 / Across Bengal</p><h2 id="geography-title">A whole state.<br><em>A local connection.</em></h2><p>Every farm belongs to a place. Follow the programme from West Bengal into a district, an assembly constituency, and the people working on the ground.</p><ol class="network-path"><li>State</li><li>District</li><li>Constituency</li><li>Team</li><li>Agent</li><li>Farmer</li><li>Farm</li></ol><a class="text-link" href="${href("geo")}">Explore the geography <span aria-hidden="true">→</span></a></div>
+        <div class="home-map"><div class="map-top"><p class="eyebrow">West Bengal</p><span>${s.districts} districts / ${s.acs} seats</span></div>${wbMap(false)}<span class="map-foot">From the hills to the delta</span></div>
+      </section>
+      ${flag ? `<section class="home-feature" aria-labelledby="flagship-title"><div class="home-section">
+        <figure class="farm-feature-photo"><img src="images/gold/integrated-farm.png" alt="Conceptual miniature of an integrated farm with a pond, paddy and vegetable beds" width="1536" height="1024" loading="lazy"><span class="photo-label">The integrated farming idea</span><figcaption>AI-created concept illustration · not a depiction of Maa Ganga Farm.</figcaption></figure>
+        <div class="farm-feature-copy"><p class="eyebrow">03 / From ambition to the ground</p><h2 id="flagship-title">${esc(flag.name)}</h2><p>A pond, vegetable beds and a plan to make them work together. Follow the recorded journey of one farm in Maynaguri.</p>
+        <div class="farm-feature-meta"><div><small>Place</small>Maynaguri, Jalpaiguri</div><div><small>Team</small>${esc(flagTeam.name)}</div><div><small>Holding</small>${flag.sizeAcres} acres</div></div>
+        <div class="feature-progress"><div><span>Implementation progress · not yield</span><strong>${flag.progress}%</strong></div><div class="progress-track" role="meter" aria-label="Implementation progress" aria-valuemin="0" aria-valuemax="100" aria-valuenow="${flag.progress}"><i style="width:${flag.progress}%"></i></div></div>
+        <a class="button-gold" href="${href("farm/" + flag.id)}">Explore Farm 360 <span aria-hidden="true">↗</span></a></div>
+      </div></section>` : ""}
+      <section class="home-section" aria-labelledby="journal-title">
+        <div class="section-heading"><div><p class="eyebrow">04 / The field journal</p><h2 id="journal-title">The work, as it happens.</h2></div><a class="text-link" href="${href("activity")}">All field activity <span aria-hidden="true">→</span></a></div>
+        ${latest ? `<a class="journal-row" href="${href("farm/" + latest.farmId + "/journey")}"><time datetime="${esc(latest.date)}">${esc(new Date(latest.date + "T12:00:00").toLocaleDateString("en-GB", {day:"2-digit",month:"short",year:"numeric"}))}</time><div><h3>${esc(latest.title)}</h3><p>${esc(nameOf("farm", latest.farmId))} · ${esc(latest.note)}</p></div><span class="journal-arrow" aria-hidden="true">↗</span></a>` : `<p class="mute">Field updates will appear here as they are recorded.</p>`}
+        <div class="programme-story"><figure><img src="images/hero.jpg" alt="The Krishi Ratna League programme launch, viewed from the stage" width="1280" height="960" loading="lazy"><figcaption>Programme launch · 14 September 2026</figcaption></figure><div><p class="eyebrow">A programme with people at its heart</p><h2>Every field has a story.<br><em>This is where we listen.</em></h2><p>Meet the programme through its launch, its people and its field context. A growing collection of photographs and film, with a clear account of what each record shows.</p><a class="text-link" href="${href("media")}">View photographs & film <span aria-hidden="true">→</span></a></div></div>
+      </section>`;
   }
+
 
   function districtTone(st) {
     if (st.farmers >= 8) return "active";
@@ -649,7 +674,7 @@
     ]);
     const visual = farm.contextualMediaId ? D.mediaById(farm.contextualMediaId) : null;
     return `<section class="dossier${visual ? "" : " dossier-plain"}">
-      ${visual ? `<figure class="dossier-visual"><img src="${esc(visual.src)}" alt="${esc(visual.caption)}"></figure>` : ""}
+      ${visual ? `<figure class="dossier-visual"><img src="images/gold/integrated-farm.png" alt="Concept model of an integrated farm with a pond, paddy and vegetable beds"><figcaption>AI-created farming concept · not a depiction of this holding.</figcaption></figure>` : ""}
       <div>
         <p class="dossier-k">${farm.id === "maa-ganga" ? "Farm 360 · Flagship record" : "Farm 360"}</p>
         <h1>${esc(farm.name)}</h1>
@@ -663,7 +688,7 @@
         </dl>
       </div>
       <div class="dossier-prog">
-        ${team && team.logo ? `<img class="dossier-crest" src="${esc(team.logo)}" alt="${esc(team.name)} official mark">` : ""}
+        ${team && team.logo ? `<img class="dossier-crest" src="${esc(teamArtwork(team))}" alt="${esc(team.name)} official logo">` : ""}
         <b>${farm.progress}</b>
         <span>${esc(stageLabel(farm.stage))}<br>Path share, not yield</span>
       </div>
@@ -875,10 +900,47 @@
     return tab;
   }
 
+  let revealObserver;
+  const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)");
+  let motionPaused = reducedMotion.matches;
+  try { motionPaused = motionPaused || localStorage.getItem("krl-motion") === "paused"; } catch (_) {}
+
+  function applyMotion() {
+    const paused = motionPaused || reducedMotion.matches;
+    document.body.classList.toggle("motion-off", paused);
+    document.body.classList.toggle("motion-enabled", !paused && "IntersectionObserver" in window);
+    app.querySelectorAll("[data-motion]").forEach((button) => {
+      button.setAttribute("aria-pressed", String(paused));
+      button.textContent = paused ? "Play motion ▷" : "Pause motion Ⅱ";
+    });
+  }
+
+  function revealSections() {
+    if (revealObserver) revealObserver.disconnect();
+    applyMotion();
+    if (motionPaused || reducedMotion.matches || !("IntersectionObserver" in window)) return;
+    revealObserver = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    }, { threshold: .06, rootMargin: "0px 0px 50px 0px" });
+    app.querySelectorAll(".home-section,.home-map,.programme-story").forEach((section) => {
+      section.classList.add("reveal-card");
+      revealObserver.observe(section);
+    });
+  }
+  reducedMotion.addEventListener("change", revealSections);
+
   function render() {
     applyLang();
     const { parts, params } = parse();
     const root = parts[0] || "";
+    document.body.dataset.page = root ? "detail" : "home";
+    document.getElementById("primary-nav").classList.remove("is-open");
+    document.getElementById("menu-toggle").setAttribute("aria-expanded", "false");
     let html = "";
     if (!root) html = viewCommand();
     else if (root === "geo" || root === "geography") html = viewGeo(params);
@@ -897,19 +959,26 @@
     else if (root === "reports") html = viewReports();
     else html = notFound("Page", parts.join("/"));
     app.innerHTML = html;
+    revealSections();
     const h = app.querySelector("h1");
     if (h) h.setAttribute("tabindex", "-1");
     if (h && !window.matchMedia("(prefers-reduced-motion: reduce)").matches) h.focus({ preventScroll: true });
   }
 
+  let searchReturnFocus = null;
   function openSearch() {
+    searchReturnFocus = document.activeElement;
     overlay.hidden = false;
+    document.body.style.overflow = "hidden";
     searchInput.value = "";
-    searchResults.innerHTML = "";
+    searchResults.innerHTML = `<li class="empty">Try “Maa Ganga”, “Terai” or a district name.</li>`;
     searchInput.focus();
   }
   function closeSearch() {
+    if (overlay.hidden) return;
     overlay.hidden = true;
+    document.body.style.overflow = "";
+    if (searchReturnFocus && searchReturnFocus.isConnected) searchReturnFocus.focus({ preventScroll: true });
   }
   function runSearch() {
     const hits = D.search(searchInput.value);
@@ -928,17 +997,48 @@
     });
   });
   document.getElementById("open-search").addEventListener("click", openSearch);
+  document.getElementById("close-search").addEventListener("click", closeSearch);
+  const menuToggle = document.getElementById("menu-toggle");
+  document.querySelector(".skip").addEventListener("click", (e) => {
+    e.preventDefault();
+    app.focus({ preventScroll: true });
+    app.scrollIntoView({ behavior: "instant" });
+  });
+  menuToggle.addEventListener("click", () => {
+    const open = menuToggle.getAttribute("aria-expanded") !== "true";
+    menuToggle.setAttribute("aria-expanded", String(open));
+    document.getElementById("primary-nav").classList.toggle("is-open", open);
+  });
+  document.getElementById("primary-nav").addEventListener("click", (e) => {
+    if (e.target.closest("a")) {
+      menuToggle.setAttribute("aria-expanded", "false");
+      document.getElementById("primary-nav").classList.remove("is-open");
+    }
+  });
   overlay.addEventListener("click", (e) => { if (e.target === overlay) closeSearch(); });
   searchInput.addEventListener("input", runSearch);
   searchResults.addEventListener("click", (e) => {
     if (e.target.closest("a")) closeSearch();
   });
   document.addEventListener("keydown", (e) => {
-    if (e.key === "/" && document.activeElement.tagName !== "INPUT" && document.activeElement.tagName !== "SELECT") {
+    if (e.key === "/" && !e.ctrlKey && !e.metaKey && !e.altKey && !document.activeElement.matches("input,select,textarea,[contenteditable=true]")) {
       e.preventDefault();
       openSearch();
     }
-    if (e.key === "Escape") closeSearch();
+    if (e.key === "Escape") {
+      closeSearch();
+      if (menuToggle.getAttribute("aria-expanded") === "true") {
+        menuToggle.setAttribute("aria-expanded", "false");
+        document.getElementById("primary-nav").classList.remove("is-open");
+        menuToggle.focus();
+      }
+    }
+    if (e.key === "Tab" && !overlay.hidden) {
+      const targets = Array.from(overlay.querySelectorAll("button,input,a[href]"));
+      const first = targets[0], last = targets[targets.length - 1];
+      if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+      else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+    }
   });
   app.addEventListener("change", (e) => {
     const form = e.target.closest("[data-filter]");
@@ -958,10 +1058,33 @@
     }
   });
   app.addEventListener("click", (e) => {
+    const regionButton = e.target.closest("[data-region]");
+    if (regionButton && TEAM_REGIONS[regionButton.dataset.region]) {
+      const region = regionButton.dataset.region;
+      app.querySelectorAll("[data-region]").forEach((button) => button.setAttribute("aria-pressed", String(button === regionButton)));
+      document.getElementById("home-teams").innerHTML = homeTeamCards(region);
+      document.getElementById("team-region-status").textContent = `${TEAM_REGIONS[region].length} teams shown: ${regionButton.textContent}.`;
+    }
+    const motionButton = e.target.closest("[data-motion]");
+    if (motionButton) {
+      motionPaused = !motionPaused;
+      try { localStorage.setItem("krl-motion", motionPaused ? "paused" : "playing"); } catch (_) {}
+      applyMotion();
+    }
+    const scrollLink = e.target.closest("[data-scroll]");
+    if (scrollLink) {
+      e.preventDefault();
+      const target = document.getElementById(scrollLink.dataset.scroll);
+      if (target) target.scrollIntoView({ behavior: window.matchMedia("(prefers-reduced-motion: reduce)").matches ? "instant" : "smooth" });
+    }
     const go = e.target.closest("[data-go]");
     if (go) location.hash = go.getAttribute("data-go");
   });
-  window.addEventListener("hashchange", render);
+  window.addEventListener("hashchange", () => {
+    closeSearch();
+    render();
+    window.scrollTo({ top: 0, behavior: "instant" });
+  });
   applyLang();
   render();
 })();

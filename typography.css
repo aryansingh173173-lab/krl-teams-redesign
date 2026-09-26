@@ -1,0 +1,198 @@
+/* Readable, locally hosted Outfit typography and original repository logos. */
+:root {
+  --body: Outfit, system-ui, sans-serif;
+  --display: Outfit, system-ui, sans-serif;
+  --mono: Outfit, system-ui, sans-serif;
+  --nav: 136px;
+}
+html[lang="bn"] {
+  --body: "Noto Sans Bengali", Outfit, sans-serif;
+  --display: "Noto Sans Bengali", Outfit, sans-serif;
+  --mono: "Noto Sans Bengali", Outfit, sans-serif;
+}
+body { font-family: var(--body); font-size: 18px; line-height: 1.7; }
+button, input, select, textarea { font-family: var(--body); }
+h1, h2, h3, em { font-family: var(--display); }
+em { font-style: normal; }
+h1, h2, h3 { font-weight: 600; }
+.top {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  grid-template-rows: 82px 54px;
+  column-gap: 24px;
+  row-gap: 0;
+  height: var(--nav);
+}
+.brand { grid-column: 1; grid-row: 1; gap: 17px; }
+.brand img.seal {
+  display: block; width: 91px; height: 58px; object-fit: contain;
+  padding: 5px; background: white; border-radius: 8px; filter: none;
+}
+.brand-k { font-size: 29px; font-weight: 600; letter-spacing: -.03em; }
+.brand-t { font-size: 14px; letter-spacing: .015em; text-transform: none; margin-top: 5px; }
+.top-tools { grid-column: 2; grid-row: 1; gap: 16px; margin: 0; }
+.subnav {
+  grid-column: 1 / -1; grid-row: 2; position: static; display: flex;
+  justify-content: flex-start; margin: 0; padding: 6px 0 10px;
+  gap: 9px; width: 100%; height: 54px; background: none;
+  border: 0; border-top: 1px solid var(--line); border-radius: 0; box-shadow: none;
+}
+.subnav a { padding: 9px 18px; font-size: 16px; font-weight: 500; letter-spacing: 0; text-transform: none; }
+.lang button { min-width: 35px; min-height: 35px; padding: 0 8px; font-size: 14px; }
+.search-btn { padding: 12px; }
+.menu-toggle { display: none; }
+.home-hero { min-height: 760px; padding-top: 86px; }
+.home-hero h1 { font-size: clamp(48px, 5.1vw, 74px); font-weight: 600; letter-spacing: -.045em; line-height: 1.08; max-width: 1160px; }
+.hero-phrase { white-space: normal; }
+.home-hero h1 em { font-weight: 500; font-style: normal; margin-top: 17px; line-height: 1.13; }
+.hero-description { font-size: 20px; line-height: 1.7; max-width: 660px; margin-top: 26px; }
+.hero-topline { font-size: 15px; letter-spacing: .08em; }
+.hero-actions { gap: 18px; margin-top: 33px; }
+.button-gold, .button-outline { font-size: 16px; font-weight: 600; letter-spacing: 0; text-transform: none; padding: 15px 25px; min-height: 54px; }
+.text-link { font-size: 16px; font-weight: 500; text-transform: none; letter-spacing: 0; padding: 11px 20px; }
+.motion-toggle { font-size: 14px; letter-spacing: 0; text-transform: none; padding: 9px 15px; }
+.hero-bottom { gap: 35px; padding-top: 40px; }
+.hero-scroll { font-size: 15px; letter-spacing: 0; text-transform: none; max-width: none; }
+.hero-coordinate { font-size: 14px; letter-spacing: 0; line-height: 1.6; text-transform: none; }
+.home-stats { gap: 20px; }
+.home-stats dt { font-size: 15px; letter-spacing: .02em; }
+.home-stats dd { font-size: 58px; font-weight: 600; line-height: 1.15; }
+.home-stats small { font-size: 16px; line-height: 1.5; max-width: none; }
+.home-record-note { border-radius: 16px; font-size: 15px; line-height: 1.7; padding: 17px 23px; }
+.home-record-note span { font-size: 14px; letter-spacing: .04em; }
+.eyebrow, .mast-k, .sec-k, .dossier-k, .geo-kicker, .sec-title { font-size: 14px; line-height: 1.7; letter-spacing: .06em; font-weight: 500; }
+.section-heading h2, .home-section h2 { font-size: clamp(34px, 3.5vw, 50px); font-weight: 600; line-height: 1.15; letter-spacing: -.035em; }
+.section-heading > p, .section-intro > p:not(.eyebrow) { font-size: 18px; line-height: 1.8; max-width: 510px; }
+.section-heading > p { max-width: 420px; }
+.region-selector button { font-size: 16px; min-height: 44px; padding: 10px 21px; }
+.team-preview { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 24px; }
+.team-tile { min-height: 450px; padding: 27px; }
+.team-number { font-size: 14px !important; letter-spacing: .04em; }
+.team-tile img {
+  width: 145px; height: 169px; margin: 22px 0 25px; padding: 10px;
+  background: white; border-radius: 14px; object-fit: contain; filter: none;
+  box-shadow: 0 8px 22px #0004;
+}
+.team-tile h3 { font-size: 28px; font-weight: 600; line-height: 1.18; overflow-wrap: normal; }
+.team-tile p { font-size: 16px; line-height: 1.65; max-width: none; margin-bottom: 25px; }
+.team-tile > .team-card-bottom { font-size: 14px; letter-spacing: 0; text-transform: none; flex-wrap: wrap; }
+.section-foot p { font-size: 16px; }
+.network-path li { font-size: 14px; padding: 7px 13px; letter-spacing: 0; text-transform: none; }
+.home-map .map-top { flex-wrap: wrap; align-items: baseline; }
+.home-map .map-top span, .map-foot, .geo-legend, .geo-note, .home-map .geo-note { font-size: 14px; }
+.home-map .geo-note { max-width: calc(100% - 16px); }
+.map-foot { right: 14px; bottom: 32px; font-size: 14px; letter-spacing: .03em; }
+.home-map { padding: 30px; }
+.farm-feature-copy h2 { font-size: clamp(34px, 3.6vw, 50px); }
+.farm-feature-copy > p:not(.eyebrow) { font-size: 18px; line-height: 1.8; }
+.farm-feature-meta > div { font-size: 16px; }
+.farm-feature-meta small { font-size: 14px; letter-spacing: .02em; }
+.feature-progress span { font-size: 16px; }
+.feature-progress strong { font-size: 33px; }
+.photo-label { font-size: 14px; text-transform: none; letter-spacing: 0; max-width: calc(100% - 36px); }
+.farm-feature-photo figcaption { position: static; font-size: 14px; padding: 15px 18px; line-height: 1.6; }
+.farm-feature-photo img { aspect-ratio: 1.25; }
+.journal-row { grid-template-columns: 150px minmax(0, 1fr) auto; }
+.journal-row time, .journal-row p { font-size: 16px; }
+.journal-row h3 { font-size: 28px; line-height: 1.3; }
+.programme-story h2 { font-size: 39px; line-height: 1.2; }
+.programme-story p:not(.eyebrow) { font-size: 18px; line-height: 1.8; }
+.programme-story figcaption, .dossier-visual figcaption { font-size: 14px; }
+.footer-brand { font-size: clamp(34px, 4vw, 50px); font-weight: 600; line-height: 1.15; }
+.footer-top p, .footer-top .eyebrow { font-size: 15px; }
+.footer-top > div:not(:first-child) > a { font-size: 17px; }
+.footer-signature { font-size: 15px; letter-spacing: .06em; }
+.footer-signature img { width: 110px; height: 69px; background: white; border-radius: 9px; padding: 5px; filter: none; }
+.footer-bottom { font-size: 14px; line-height: 1.7; }
+.hierarchy { font-size: 14px; line-height: 1.8; letter-spacing: .02em; }
+.notice { font-size: 16px; }
+.crumb { font-size: 15px; line-height: 1.7; }
+.ident h1 { font-size: clamp(36px, 4.5vw, 58px); font-weight: 600; }
+.ident p { font-size: 18px; }
+.ident .mast-k { font-size: 14px; }
+.ident-row { grid-template-columns: 100px minmax(0, 1fr); }
+.ident-row img { width: 95px; height: 115px; object-fit: contain; background: white; border-radius: 12px; padding: 7px; }
+.sec-head h2 { font-size: 35px; font-weight: 600; }
+.sec-head p { font-size: 18px; }
+.sec-head .sec-k { font-size: 14px; }
+.league .register-list { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 22px; }
+.reg-team { grid-template-columns: 100px minmax(0, 1fr); padding: 26px; gap: 22px; }
+.reg-team img { width: 95px; height: 115px; padding: 7px; background: white; border-radius: 12px; }
+.reg-team strong { font-size: 27px; font-weight: 600; line-height: 1.2; }
+.reg-team span, .reg-team > span { font-size: 16px; line-height: 1.6; }
+.reg-team > span { grid-column: 1 / -1; }
+.reg-team > span:last-child { padding-top: 0; border-top: 0; }
+.tid img { width: 42px; height: 50px; padding: 3px; background: white; border-radius: 5px; }
+.tid b { font-size: 16px; }.tid small { font-size: 14px; }
+.scale dt, .ledger dt { font-size: 14px; letter-spacing: .02em; line-height: 1.6; }
+.scale dd { font-size: 40px; }.scale small { font-size: 16px; }
+.ledger { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+.ledger dd { font-size: 30px; overflow-wrap: anywhere; }
+.filters label { font-size: 14px; text-transform: none; letter-spacing: 0; }
+.filters select, .filters input { font-size: 17px; min-height: 46px; }
+table.data { font-size: 17px; }table.data th { font-size: 14px; letter-spacing: .02em; }table.data td { font-size: 17px; line-height: 1.65; }
+.pager, .pager button { font-size: 16px; }.badge { font-size: 14px; letter-spacing: 0; text-transform: none; }
+.dossier { grid-template-columns: minmax(0, 1fr) minmax(0, 1.15fr); }
+.dossier h1 { font-size: 42px; font-weight: 600; line-height: 1.15; }
+.dossier-meta dt { font-size: 14px; }.dossier-meta dd { font-size: 18px; }.dossier-place { font-size: 18px; }
+.dossier-prog { grid-column: 1 / -1; display: flex; align-items: center; gap: 25px; text-align: left; padding: 20px 0 0; border-left: 0; border-top: 1px solid var(--line); }
+.dossier-crest { width: 65px; height: 80px; padding: 5px; border-radius: 8px; background: white; margin: 0; }.dossier-prog span { font-size: 16px; margin: 0; }
+.tabs a { font-size: 16px; letter-spacing: 0; text-transform: none; }
+.spine h3 { font-size: 14px; line-height: 1.6; letter-spacing: .02em; }.spine p, .now { font-size: 18px; }.mute, .now.mute { font-size: 16px; }
+.voice { font-size: 25px; font-style: normal; line-height: 1.6; }
+.smart h3 { font-size: 27px; font-weight: 600; }.smart p { font-size: 17px; }
+.people article { font-size: 17px; }.people small { font-size: 14px; }
+.journey li { grid-template-columns: 110px 10px minmax(0, 1fr); }.journey time { font-size: 15px; }.journey h3 { font-size: 25px; font-weight: 600; }.journey p { font-size: 17px; }
+.geo-list strong { font-size: 17px; }.geo-list em { font-size: 15px; }
+.reg-row, .ops-line p { font-size: 17px; }.ops-line strong { font-size: 27px; }.ops-line time { font-size: 16px; }
+.media-feature figcaption, .media-support figcaption, .gallery figcaption, .ba figcaption, .now-fig figcaption, .media-note, .session-link { font-size: 16px; line-height: 1.7; }
+.know-more h2 { font-size: 33px; font-weight: 600; line-height: 1.2; }.know-more p { font-size: 18px; }.know-more-link { font-size: 16px; letter-spacing: 0; text-transform: none; }
+.search-heading button, .search-hint, .search-box small, .search-heading .eyebrow { font-size: 14px; }
+.search-box input { font-size: 26px; }.search-box li a { font-size: 18px; }.search-box small { display: block; margin-bottom: 4px; }
+.field-bar a { font-size: 14px; letter-spacing: 0; text-transform: none; }
+@media(max-width:1100px) {
+  :root { --nav: 88px; }
+  .top { display: flex; height: var(--nav); gap: 16px; }
+  .top-tools { margin-left: auto; gap: 12px; }
+  .subnav { display: none; position: absolute; top: var(--nav); left: 0; right: 0; height: auto; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 10px; padding: 20px; background: linear-gradient(130deg,#362822,#210f11); border-bottom: 1px solid var(--line); border-radius: 0 0 20px 20px; box-shadow: 0 20px 35px #0008; }
+  .subnav.is-open { display: grid; }.subnav a { padding: 13px 16px; font-size: 17px; }
+  .menu-toggle { display: flex; align-items: center; justify-content: center; gap: 8px; width: auto; height: 44px; padding: 10px 14px; font-size: 16px; border: 1px solid var(--line); border-radius: 99px; }
+  .team-preview { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-geography, .home-feature > .home-section { gap: 35px; }
+  .home-map { padding: 24px; }.map-foot { display: none; }
+  .home-stats { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .home-stats a:nth-child(n) { border: 1px solid var(--line); }
+}
+@media(max-width:700px) {
+  :root { --nav: 78px; }
+  body { font-size: 18px; }
+  .top { padding-inline: 15px; gap: 10px; }
+  .brand { gap: 10px; min-width: 0; }.brand img.seal { width: 60px; height: 43px; padding: 3px; flex-shrink: 0; }.brand-k { font-size: 23px; white-space: nowrap; }.brand-t { display: none; }
+  .top-tools { gap: 7px; }.search-btn { padding: 10px; }.lang { padding: 2px; }.lang button { font-size: 14px; min-width: 27px; padding: 0 4px; min-height: 34px; }
+  .menu-toggle { width: 38px; height: 38px; padding: 8px; font-size: 0; }.menu-toggle span { font-size: 19px; }
+  .subnav { grid-template-columns: repeat(2, minmax(0, 1fr)); padding: 17px; }.subnav a { font-size: 17px; }
+  .home-hero { padding-top: 90px; min-height: 800px; }.home-hero h1 { font-size: clamp(35px,8.5vw,56px); line-height: 1.14; letter-spacing: -.04em; }.hero-phrase { display: block; }.home-hero h1 em { margin-top: 14px; line-height: 1.18; }
+  .hero-topline { font-size: 14px; letter-spacing: .025em; max-width: 310px; }.hero-description { font-size: 18px; line-height: 1.75; }.hero-actions { flex-wrap: wrap; gap: 13px; }.button-gold,.button-outline { font-size: 16px; padding: 13px 21px; min-height: 50px; }.motion-toggle { font-size: 14px; padding: 8px 12px; }
+  .hero-bottom { flex-direction: column; align-items: flex-start; gap: 21px; }.hero-scroll { font-size: 16px; max-width: none; }.hero-coordinate { text-align: left; font-size: 14px; max-width: none; }.hero-bottom .scroll-circle { width: 33px; height: 33px; }
+  .home-stats { gap: 13px; }.home-stats a:nth-child(n) { padding: 20px 17px !important; }.home-stats dt { font-size: 14px; letter-spacing: 0; text-transform: none; }.home-stats dd { font-size: 43px; }.home-stats small { font-size: 15px; line-height: 1.6; }.home-stats .stat-arrow { top: 21px; right: 15px; }
+  .home-record-note { font-size: 15px; padding: 17px; }.home-record-note span { font-size: 14px; }
+  .home-section { padding-block: 62px; }.section-heading h2,.home-section h2 { font-size: clamp(30px,8vw,42px); line-height: 1.2; }.section-heading > p,.section-intro > p:not(.eyebrow) { font-size: 18px; }.eyebrow,.mast-k,.sec-k,.dossier-k,.geo-kicker,.sec-title { font-size: 14px; letter-spacing: .025em; }
+  .region-selector { display: grid; grid-template-columns: 1fr 1fr; gap: 9px; }.region-selector button { font-size: 15px; padding: 10px 12px; min-height: 46px; }
+  .team-preview { grid-template-columns: 1fr; gap: 22px; }.team-tile { min-height: 420px; padding: 25px; }.team-tile img { width: 142px; height: 165px; margin-block: 20px 24px; }.team-tile h3 { font-size: 29px; }.team-tile p { font-size: 17px; }.team-tile > .team-card-bottom { flex-direction: row; font-size: 15px; gap: 15px; }.team-number { font-size: 14px !important; }.section-foot p { font-size: 16px; }
+  .home-geography,.home-feature > .home-section { grid-template-columns: 1fr; }.home-map { padding: 23px; }.home-map .map-top span { font-size: 14px; }.home-map .geo-stage { max-width: 100%; width: 251px; height: auto; aspect-ratio: 1382/2036; }.home-map .geo-note { font-size: 14px; max-width: none; }
+  .farm-feature-copy h2 { font-size: 37px; }.farm-feature-copy > p:not(.eyebrow) { font-size: 18px; }.farm-feature-meta > div { font-size: 16px; padding: 12px; }.farm-feature-meta small { font-size: 14px; }.feature-progress span { font-size: 16px; }.feature-progress strong { font-size: 32px; }.feature-progress > div { gap: 14px; align-items: center; }.photo-label { font-size: 14px; left: 12px; right: 12px; max-width: none; text-align: center; }.farm-feature-photo figcaption { font-size: 14px; }
+  .journal-row { grid-template-columns: minmax(0, 1fr) auto; padding: 23px; }.journal-row time { grid-column: 1 / -1; font-size: 16px; }.journal-row h3 { font-size: 25px; line-height: 1.3; }.journal-row p { font-size: 17px; }.programme-story h2 { font-size: 34px; }.programme-story p:not(.eyebrow) { font-size: 18px; }.programme-story figcaption { font-size: 14px; }
+  .footer-top { grid-template-columns: 1fr; gap: 34px; }.footer-brand { font-size: 37px; }.footer-top .eyebrow,.footer-top p { font-size: 15px; }.footer-top > div:not(:first-child) > a { font-size: 18px; }.footer-signature { align-items: center; font-size: 14px; gap: 18px; letter-spacing: .025em; }.footer-signature img { width: 85px; height: 55px; flex-shrink: 0; }.footer-bottom { font-size: 14px; }
+  .notice { font-size: 16px; }.hierarchy { font-size: 14px; }.crumb { font-size: 15px; }.ident { padding: 25px 22px; }.ident h1 { font-size: 36px; overflow-wrap: anywhere; }.ident p { font-size: 17px; }.ident-row { grid-template-columns: 75px minmax(0, 1fr); gap: 18px; }.ident-row img { width: 75px; height: 90px; }.ident-row h1 { font-size: 30px; }
+  .league .register-list { grid-template-columns: 1fr; }.reg-team { grid-template-columns: 90px minmax(0, 1fr); padding: 22px; gap: 19px; }.reg-team img { width: 85px; height: 102px; }.reg-team strong { font-size: 25px; }.reg-team span,.reg-team > span { font-size: 16px; }.reg-team > span { grid-column: 1 / -1; }.tid b { font-size: 16px; }.tid small { font-size: 14px; }
+  .scale,.ledger { grid-template-columns: repeat(2,minmax(0,1fr)); }.scale dt,.ledger dt { font-size: 14px; }.scale small { font-size: 16px; }.ledger dd { font-size: 28px; }.filters { grid-template-columns: 1fr; }.filters label { font-size: 15px; }.filters select,.filters input { font-size: 17px; }.tabs a { font-size: 16px; padding: 11px 16px; }table.data th { font-size: 14px; }table.data td { font-size: 17px; }
+  .dossier { grid-template-columns: 1fr; padding: 22px; }.dossier h1 { font-size: 34px; }.dossier-meta { grid-template-columns: 1fr; gap: 18px; }.dossier-meta dt { font-size: 14px; }.dossier-meta dd,.dossier-place { font-size: 18px; }.dossier-prog { grid-column: auto; gap: 18px; flex-wrap: wrap; }.dossier-prog span { font-size: 16px; }.dossier-prog b { font-size: 50px; }.dossier-crest { width: 60px; height: 74px; }
+  .narrative,.people { grid-template-columns: 1fr; }.spine li { grid-template-columns: 1fr; }.spine h3 { font-size: 14px; }.spine p { font-size: 18px; }.voice { font-size: 23px; }.smart h3 { font-size: 26px; }.smart p { font-size: 17px; }.people article { font-size: 18px; }.people small { font-size: 14px; }.journey li { grid-template-columns: 10px minmax(0,1fr); gap: 10px; }.journey time { grid-column: 1 / -1; font-size: 16px; }.journey h3 { font-size: 24px; }.journey p { font-size: 17px; }
+  .geo-list strong { font-size: 18px; }.geo-list em { font-size: 15px; }.reg-row { font-size: 17px; }.ops-line strong { font-size: 26px; }.ops-line time,.ops-line p { font-size: 17px; }.media-feature figcaption,.media-support figcaption,.gallery figcaption,.ba figcaption,.now-fig figcaption { font-size: 16px; }.know-more h2 { font-size: 29px; }.know-more p { font-size: 18px; }.know-more-link { font-size: 16px; }
+  .search-heading { align-items: flex-start; }.search-heading .eyebrow { font-size: 14px; max-width: 60%; }.search-heading button { font-size: 14px; white-space: nowrap; }.search-box input { font-size: 22px; }.search-hint,.search-box small { font-size: 14px; }.search-box li a { font-size: 18px; }.field-bar a { font-size: 14px; }
+}
+@media(max-width:380px) {
+  .top { padding-inline: 10px; gap: 6px; }.brand { gap: 7px; }.brand img.seal { width: 44px; height: 34px; padding: 2px; }.brand-k { font-size: 20px; }.top-tools { gap: 5px; }.search-btn { padding: 8px; }.lang button { min-width: 25px; padding: 0 3px; }.menu-toggle { width: 34px; height: 34px; padding: 7px; }
+  .home-hero h1 { font-size: 34px; }.home-stats a:nth-child(n) { padding: 17px 14px !important; }.home-stats dd { font-size: 39px; }.home-stats small { font-size: 15px; }.team-tile { padding: 22px; }.team-tile h3 { font-size: 27px; }.team-tile > .team-card-bottom { flex-direction: column; font-size: 15px; }
+  .ident-row { grid-template-columns: 1fr; }.reg-team { grid-template-columns: 1fr; }.reg-team img { width: 110px; height: 133px; }.scale,.ledger { grid-template-columns: 1fr; }.home-map { padding: 19px; }.footer-signature { flex-direction: column; text-align: center; }
+}
